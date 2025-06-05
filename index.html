@@ -9,7 +9,7 @@
     rel="stylesheet"
   />
   <style>
-    /* ====== Global Styles ====== */
+    /* ====== GLOBAL RESET & BASE ====== */
     * {
       margin: 0;
       padding: 0;
@@ -17,60 +17,91 @@
       font-family: 'Roboto', sans-serif;
     }
     body {
-      background: linear-gradient(to right, #0f172a, #1e3a8a);
-      color: #f1f5f9;
-      line-height: 1.6;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      color: #f1f5f9;
+      overflow-x: hidden;
     }
-    header,
-    footer {
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ====== HEADER ====== */
+    header {
       text-align: center;
       padding: 2rem 1rem;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
     header h1 {
       font-size: 2.5rem;
-      color: #38bdf8;
+      color: #fff;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
     }
     header p {
       margin-top: 0.5rem;
       font-size: 1.1rem;
-      color: #94a3b8;
+      color: #e0e7ff;
     }
+
+    /* ====== NAVIGATION ====== */
     nav {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
+      gap: 1rem;
+      margin: 1rem 0 2rem;
     }
     nav a {
-      text-decoration: none;
-      color: #fff;
-      padding: 0.75rem 1.25rem;
-      background-color: #0ea5e9;
+      padding: 0.75rem 1.5rem;
+      background: #38bdf8;
       border-radius: 8px;
-      transition: background-color 0.25s;
       font-weight: 500;
+      transition: background 0.3s, transform 0.2s;
       font-size: 0.95rem;
     }
     nav a:hover {
-      background-color: #0284c7;
+      background: #0ea5e9;
+      transform: translateY(-2px);
     }
+
+    /* ====== SECTIONS ====== */
     .section {
       max-width: 800px;
-      margin: 0 auto;
+      margin: 0 auto 3rem;
       padding: 1rem 1rem;
+      background: rgba(30, 41, 59, 0.85);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     .section h2 {
-      border-bottom: 2px solid #38bdf8;
+      color: #3b82f6;
+      border-bottom: 2px solid #3b82f6;
       padding-bottom: 0.5rem;
       margin-bottom: 1rem;
-      color: #38bdf8;
       font-size: 1.75rem;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
     }
-    /* ====== Game Container & Canvas ====== */
+    .section p,
+    .section ul {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #f1f5f9;
+    }
+    .section ul {
+      list-style: none;
+      padding-left: 1.2rem;
+    }
+    .section ul li::before {
+      content: "➤";
+      margin-right: 0.5rem;
+      color: #38bdf8;
+    }
+
+    /* ====== GAME CONTAINER & CANVAS ====== */
     #gameContainer {
       position: relative;
       width: 100%;
@@ -80,24 +111,27 @@
     #gameCanvas {
       width: 100%;
       height: auto;
-      background: #1e293b;
-      border: 2px solid #38bdf8;
+      background: #0f172a;
+      border: 4px solid #3b82f6;
+      border-radius: 8px;
       display: block;
     }
-    /* Overlay shown before game starts */
+
+    /* Overlay shown before & after game */
     #overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.85);
       color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 10;
+      border-radius: 8px;
     }
     #overlay.hidden {
       display: none;
@@ -105,7 +139,7 @@
     #overlay h3 {
       font-size: 2rem;
       margin-bottom: 1rem;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+      color: #3b82f6;
     }
     #overlay button {
       padding: 0.75rem 1.5rem;
@@ -115,12 +149,15 @@
       border-radius: 6px;
       color: #0f172a;
       cursor: pointer;
-      transition: background 0.25s;
+      transition: background 0.3s, transform 0.2s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
     #overlay button:hover {
       background: #0ea5e9;
+      transform: translateY(-2px);
     }
-    /* On-screen touch controls (only show under 600px width) */
+
+    /* On-screen touch controls (show under 600px width) */
     #controls {
       display: none;
       position: absolute;
@@ -133,33 +170,48 @@
     #controls button {
       padding: 0.5rem 1rem;
       font-size: 1.2rem;
-      background: #38bdf8;
+      background: #3b82f6;
       border: none;
       border-radius: 6px;
-      color: #0f172a;
+      color: #fff;
       opacity: 0.85;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s, transform 0.2s;
     }
     #controls button:hover {
       opacity: 1;
+      transform: scale(1.1);
     }
     @media (max-width: 600px) {
       #controls {
         display: flex;
       }
     }
+
+    /* ====== FOOTER ====== */
     footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: linear-gradient(135deg, #2563eb, #1e3a8a);
+      color: #e0e7ff;
       margin-top: auto;
+      box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+    }
+    footer p {
       font-size: 0.9rem;
-      color: #94a3b8;
+    }
+    footer a {
+      color: #38bdf8;
+      transition: text-decoration 0.2s;
+    }
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
-
 <body>
   <!-- ====== HEADER & NAV ====== -->
   <header>
-    <h1>Ahmad Bagdaddy | don’t forget to support me on Instagram</h1>
+    <h1>Ahmad Bagdaddy | Don’t Forget to Support Me on Instagram</h1>
     <p>Documenting real experiments and skills I’ve actually explored.</p>
   </header>
 
@@ -168,15 +220,13 @@
     <a href="#projects">Projects</a>
     <a href="#game">Mini Game</a>
     <a href="https://github.com/linux-on-vm" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://instagram.com/ahmadbagdaddy" target="_blank" rel="noopener"
-      >Instagram</a
-    >
+    <a href="https://instagram.com/ahmadbagdaddy" target="_blank" rel="noopener">Instagram</a>
   </nav>
 
   <!-- ====== ABOUT SECTION ====== -->
   <div class="section" id="about">
     <h2>About Me</h2>
-    <p> ahmad bagdaddy, new member of the gooning family </p>
+    <p>ahmad bagdaddy, new member of the gooning family</p>
   </div>
 
   <!-- ====== PROJECTS SECTION ====== -->
@@ -185,7 +235,7 @@
     <ul>
       <li>🖥️ Set up Kali and Ubuntu in VMware and VirtualBox.</li>
       <li>🔍 Used Nmap to scan LAN devices and study responses.</li>
-      <li>📡 Practiced network password revealing experiments inside my VM... and failed </li>
+      <li>📡 Practiced network password revealing experiments inside my VM... and failed</li>
       <li>🧰 Configured simple web servers with Apache on Ubuntu.</li>
     </ul>
   </div>
@@ -195,13 +245,11 @@
     <h2>Mini Game: Space Shooter</h2>
     <div id="gameContainer">
       <canvas id="gameCanvas" width="600" height="400"></canvas>
-
-      <!-- Overlay shown before the game starts -->
+      <!-- Overlay shown before & after game -->
       <div id="overlay">
         <h3>Space Shooter</h3>
         <button id="startButton">Start Game</button>
       </div>
-
       <!-- On-screen buttons for mobile control -->
       <div id="controls">
         <button id="leftBtn">◀</button>
@@ -213,16 +261,16 @@
 
   <!-- ====== FOOTER ====== -->
   <footer>
-    <p>&copy; 2025 Ahmad Bagdaddy | Built with care and realism.</p>
+    <p>&copy; 2025 Ahmad Bagdaddy | Built with care and realism. <br />
+    <a href="https://instagram.com/ahmadbagdaddy" target="_blank">@ahmadbagdaddy</a></p>
   </footer>
 
   <!-- ====== GAME SCRIPT ====== -->
   <script>
-    /*** BASIC AUDIO FUNCTIONS USING Web Audio API ***/
+    // ===== AUDIO SETUP USING Web Audio API =====
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
 
-    // Play a simple tone (frequency in Hz, duration in ms)
     function playTone(freq, duration) {
       const osc = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
@@ -237,16 +285,14 @@
       }, duration);
     }
 
-    // Ship shooting sound
     function playShootSound() {
       playTone(600, 100);
     }
-    // Enemy explosion sound
     function playExplosionSound() {
       playTone(200, 200);
     }
 
-    /*** GAME VARIABLES ***/
+    // ===== GAME VARIABLES =====
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const overlay = document.getElementById('overlay');
@@ -257,53 +303,63 @@
     const shootBtn = document.getElementById('shootBtn');
 
     let gameStarted = false;
-    let requestId; // for requestAnimationFrame
+    let requestId = null;
+    let spawnInterval = null;
+    let score = 0;
 
     const ship = {
       x: canvas.width / 2 - 20,
       y: canvas.height - 40,
       width: 40,
       height: 20,
-      speed: 5,
+      speed: 5
     };
+
     let bullets = [];
     let enemies = [];
-    let score = 0;
 
-    // Flags for input
-    let moveLeft = false,
-      moveRight = false,
-      shouldShoot = false;
+    // Input flags
+    let moveLeft = false;
+    let moveRight = false;
+    let shouldShoot = false;
 
-    /*** START GAME FUNCTION ***/
+    // ===== START GAME =====
     function startGame() {
-      // Hide overlay
       overlay.classList.add('hidden');
       gameStarted = true;
-      // Show mobile controls if on a small screen
+      score = 0;
+      bullets = [];
+      enemies = [];
+      ship.x = canvas.width / 2 - ship.width / 2;
+
+      // Show mobile controls if on small screen
       if (window.innerWidth <= 600) {
         controls.style.display = 'flex';
       }
-      // Begin spawning enemies
+
+      // Spawn enemies every 1.5 seconds
       spawnInterval = setInterval(spawnEnemy, 1500);
-      // Start the main loop
-      requestId = requestAnimationFrame(update);
-      // Resume audio context if it was suspended (for Mobile Safari)
+
+      // Resume audio context (for mobile)
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
+
+      // Start update loop
+      requestId = requestAnimationFrame(update);
     }
 
     startButton.addEventListener('click', startGame);
 
-    /*** SPAWN ENEMIES REGULARLY ***/
+    // ===== SPAWN ENEMY =====
     function spawnEnemy() {
       const size = 30;
       const x = Math.random() * (canvas.width - size);
-      enemies.push({ x, y: -size, width: size, height: size });
+      const speed = 1 + Math.random() * 1.5; // random speed between 1 and 2.5
+      enemies.push({ x, y: -size, width: size, height: size, speed });
     }
 
-    /*** DRAW FUNCTIONS ***/
+    // ===== DRAW FUNCTIONS =====
     function drawShip() {
       ctx.fillStyle = '#38bdf8';
       ctx.fillRect(ship.x, ship.y, ship.width, ship.height);
@@ -330,7 +386,7 @@
           return;
         }
 
-        // Check collision with ship
+        // Collision with ship
         if (
           ship.x < e.x + e.width &&
           ship.x + ship.width > e.x &&
@@ -348,7 +404,7 @@
       ctx.fillText('Score: ' + score, 10, 25);
     }
 
-    /*** UPDATE LOOP ***/
+    // ===== UPDATE LOOP =====
     function update() {
       if (!gameStarted) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -361,13 +417,13 @@
         ship.x += ship.speed;
       }
 
-      // Shoot bullet if requested
+      // Shoot bullet
       if (shouldShoot) {
         fireBullet();
         shouldShoot = false;
       }
 
-      // Update bullets & enemies
+      // Draw & update elements
       drawShip();
       drawBullets();
       drawEnemies();
@@ -378,19 +434,19 @@
       requestId = requestAnimationFrame(update);
     }
 
-    /*** FIRE A BULLET ***/
+    // ===== FIRE BULLET =====
     function fireBullet() {
       bullets.push({
         x: ship.x + ship.width / 2 - 2,
         y: ship.y - 10,
         width: 5,
         height: 10,
-        speed: 7,
+        speed: 7
       });
       playShootSound();
     }
 
-    /*** COLLISION DETECTION BETWEEN BULLETS & ENEMIES ***/
+    // ===== DETECT HITS =====
     function detectHits() {
       bullets.forEach((b, bi) => {
         enemies.forEach((e, ei) => {
@@ -410,27 +466,31 @@
       });
     }
 
-    /*** END GAME ***/
+    // ===== END GAME =====
     function endGame() {
       gameStarted = false;
       clearInterval(spawnInterval);
       cancelAnimationFrame(requestId);
-      // Show Game Over
+
+      // Display Game Over
       ctx.fillStyle = '#f43f5e';
       ctx.font = '24px Roboto';
       ctx.fillText('Game Over! Score: ' + score, canvas.width / 2 - 120, canvas.height / 2);
-      // Show a “Restart” button on overlay
+
+      // Show overlay with “Play Again”
       overlay.querySelector('h3').innerText = 'Game Over!';
       startButton.innerText = 'Play Again';
       overlay.classList.remove('hidden');
     }
 
-    /*** KEYBOARD & TOUCH INPUT ***/
+    // ===== KEYBOARD & TOUCH INPUT =====
     window.addEventListener('keydown', (e) => {
       if (!gameStarted) return;
       if (e.code === 'ArrowLeft') moveLeft = true;
       if (e.code === 'ArrowRight') moveRight = true;
-      if (e.code === 'Space') shouldShoot = true;
+      if (e.code === 'Space') {
+        shouldShoot = true;
+      }
     });
     window.addEventListener('keyup', (e) => {
       if (e.code === 'ArrowLeft') moveLeft = false;
@@ -454,25 +514,12 @@
       shouldShoot = true;
     });
     shootBtn.addEventListener('touchend', () => {
-      // nothing else required
+      // no-op
     });
-
-    // Prevent scrolling when touching controls
-    document.getElementById('controls').addEventListener('touchmove', (e) => {
+    // Prevent scrolling when using touch controls
+    controls.addEventListener('touchmove', (e) => {
       e.preventDefault();
     });
-
-    // Resize canvas internally if window size changes (keeps resolution crisp)
-    window.addEventListener('resize', () => {
-      const container = document.getElementById('gameContainer');
-      const scale = container.clientWidth / 600;
-      canvas.style.transform = 'scale(' + scale + ')';
-      canvas.style.transformOrigin = 'top left';
-      // adjust container height
-      container.style.height = 400 * scale + 'px';
-    });
-    // Trigger initial resize
-    window.dispatchEvent(new Event('resize'));
   </script>
 </body>
 </html>
