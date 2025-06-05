@@ -1,111 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ahmad Bagdaddy | dont forget to support me on insta this took so long</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ahmad Bagdaddy | Linux & VM Lab</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
   <style>
+    /* ====== Global Styles ====== */
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-    }
-    html, body {
+      box-sizing: border-box;
       font-family: 'Roboto', sans-serif;
+    }
+    body {
       background: linear-gradient(to right, #0f172a, #1e3a8a);
       color: #f1f5f9;
-      scroll-behavior: smooth;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    header, footer {
+    header,
+    footer {
       text-align: center;
       padding: 2rem 1rem;
     }
     header h1 {
       font-size: 2.5rem;
       color: #38bdf8;
-      animation: fadeInDown 1s ease-in-out;
     }
     header p {
-      color: #cbd5e1;
       margin-top: 0.5rem;
+      font-size: 1.1rem;
+      color: #94a3b8;
     }
     nav {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
       margin-bottom: 2rem;
-      background-color: #1e293b;
-      padding: 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
     }
     nav a {
-      color: #f1f5f9;
       text-decoration: none;
-      padding: 0.75rem 1.5rem;
+      color: #fff;
+      padding: 0.75rem 1.25rem;
       background-color: #0ea5e9;
       border-radius: 8px;
-      transition: all 0.3s ease;
+      transition: background-color 0.25s;
+      font-weight: 500;
+      font-size: 0.95rem;
     }
     nav a:hover {
       background-color: #0284c7;
-      transform: scale(1.05);
     }
     .section {
-      max-width: 900px;
+      max-width: 800px;
       margin: 0 auto;
-      padding: 2rem 1rem;
+      padding: 1rem 1rem;
     }
     .section h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: #38bdf8;
       border-bottom: 2px solid #38bdf8;
       padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      color: #38bdf8;
+      font-size: 1.75rem;
     }
-    .section ul {
-      padding-left: 1.5rem;
-      list-style-type: disc;
+    /* ====== Game Container & Canvas ====== */
+    #gameContainer {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
     }
-    canvas {
-      display: block;
-      margin: 2rem auto;
+    #gameCanvas {
+      width: 100%;
+      height: auto;
+      background: #1e293b;
       border: 2px solid #38bdf8;
-      background-color: #0f172a;
-      border-radius: 10px;
+      display: block;
+    }
+    /* Overlay shown before game starts */
+    #overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    #overlay.hidden {
+      display: none;
+    }
+    #overlay h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    }
+    #overlay button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background: #38bdf8;
+      border: none;
+      border-radius: 6px;
+      color: #0f172a;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+    #overlay button:hover {
+      background: #0ea5e9;
+    }
+    /* On-screen touch controls (only show under 600px width) */
+    #controls {
+      display: none;
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      gap: 10px;
+      z-index: 5;
+    }
+    #controls button {
+      padding: 0.5rem 1rem;
+      font-size: 1.2rem;
+      background: #38bdf8;
+      border: none;
+      border-radius: 6px;
+      color: #0f172a;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+    #controls button:hover {
+      opacity: 1;
+    }
+    @media (max-width: 600px) {
+      #controls {
+        display: flex;
+      }
     }
     footer {
+      margin-top: auto;
       font-size: 0.9rem;
       color: #94a3b8;
     }
-    footer a {
-      color: #60a5fa;
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.8rem;
-      }
-      nav a {
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem;
-      }
-    }
   </style>
 </head>
+
 <body>
+  <!-- ====== HEADER & NAV ====== -->
   <header>
-    <h1>Ahmad Bagdaddy | Linux & VM Lab</h1>
+    <h1>Ahmad Bagdaddy | don’t forget to support me on Instagram</h1>
     <p>Documenting real experiments and skills I’ve actually explored.</p>
   </header>
 
@@ -113,125 +167,312 @@
     <a href="#about">About Me</a>
     <a href="#projects">Projects</a>
     <a href="#game">Mini Game</a>
-    <a href="https://github.com/linux-on-vm" target="_blank">GitHub</a>
-    <a href="https://instagram.com/ahmadbagdaddy" target="_blank">Instagram</a>
+    <a href="https://github.com/linux-on-vm" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://instagram.com/ahmadbagdaddy" target="_blank" rel="noopener"
+      >Instagram</a
+    >
   </nav>
 
+  <!-- ====== ABOUT SECTION ====== -->
   <div class="section" id="about">
     <h2>About Me</h2>
-    <p>Hey! I'm Ahmad. I enjoy using Linux inside VMs to test networking tools like Nmap, explore how basic network layers interact, and simulate basic environments for learning purposes. Nothing flashy — just pure hands-on learning.</p>
+    <p> ahmad bagdaddy, new member of the gooning family </p>
   </div>
 
+  <!-- ====== PROJECTS SECTION ====== -->
   <div class="section" id="projects">
     <h2>What I’ve Done</h2>
     <ul>
       <li>🖥️ Set up Kali and Ubuntu in VMware and VirtualBox.</li>
       <li>🔍 Used Nmap to scan LAN devices and study responses.</li>
-      <li>📡 Practiced basic network experiments and failed...</li>
+      <li>📡 Practiced network password revealing experiments inside my VM... and failed </li>
       <li>🧰 Configured simple web servers with Apache on Ubuntu.</li>
     </ul>
   </div>
 
+  <!-- ====== GAME SECTION ====== -->
   <div class="section" id="game">
-    <h2>Mini Game: Space Blaster</h2>
-    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <h2>Mini Game: Space Shooter</h2>
+    <div id="gameContainer">
+      <canvas id="gameCanvas" width="600" height="400"></canvas>
+
+      <!-- Overlay shown before the game starts -->
+      <div id="overlay">
+        <h3>Space Shooter</h3>
+        <button id="startButton">Start Game</button>
+      </div>
+
+      <!-- On-screen buttons for mobile control -->
+      <div id="controls">
+        <button id="leftBtn">◀</button>
+        <button id="shootBtn">⊙</button>
+        <button id="rightBtn">▶</button>
+      </div>
+    </div>
   </div>
 
+  <!-- ====== FOOTER ====== -->
   <footer>
-    <p>&copy; 2025 Ahmad Bagdaddy | Built with care and realism. Powered by <a href="https://pages.github.com">GitHub Pages</a></p>
+    <p>&copy; 2025 Ahmad Bagdaddy | Built with care and realism.</p>
   </footer>
 
+  <!-- ====== GAME SCRIPT ====== -->
   <script>
+    /*** BASIC AUDIO FUNCTIONS USING Web Audio API ***/
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+
+    // Play a simple tone (frequency in Hz, duration in ms)
+    function playTone(freq, duration) {
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      osc.type = 'square';
+      osc.frequency.value = freq;
+      gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      osc.start();
+      setTimeout(() => {
+        osc.stop();
+      }, duration);
+    }
+
+    // Ship shooting sound
+    function playShootSound() {
+      playTone(600, 100);
+    }
+    // Enemy explosion sound
+    function playExplosionSound() {
+      playTone(200, 200);
+    }
+
+    /*** GAME VARIABLES ***/
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
+    const overlay = document.getElementById('overlay');
+    const startButton = document.getElementById('startButton');
+    const controls = document.getElementById('controls');
+    const leftBtn = document.getElementById('leftBtn');
+    const rightBtn = document.getElementById('rightBtn');
+    const shootBtn = document.getElementById('shootBtn');
 
-    let player = { x: 280, y: 350, width: 40, height: 20, speed: 5 };
+    let gameStarted = false;
+    let requestId; // for requestAnimationFrame
+
+    const ship = {
+      x: canvas.width / 2 - 20,
+      y: canvas.height - 40,
+      width: 40,
+      height: 20,
+      speed: 5,
+    };
     let bullets = [];
     let enemies = [];
-    let keys = {};
     let score = 0;
 
-    function drawPlayer() {
+    // Flags for input
+    let moveLeft = false,
+      moveRight = false,
+      shouldShoot = false;
+
+    /*** START GAME FUNCTION ***/
+    function startGame() {
+      // Hide overlay
+      overlay.classList.add('hidden');
+      gameStarted = true;
+      // Show mobile controls if on a small screen
+      if (window.innerWidth <= 600) {
+        controls.style.display = 'flex';
+      }
+      // Begin spawning enemies
+      spawnInterval = setInterval(spawnEnemy, 1500);
+      // Start the main loop
+      requestId = requestAnimationFrame(update);
+      // Resume audio context if it was suspended (for Mobile Safari)
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    startButton.addEventListener('click', startGame);
+
+    /*** SPAWN ENEMIES REGULARLY ***/
+    function spawnEnemy() {
+      const size = 30;
+      const x = Math.random() * (canvas.width - size);
+      enemies.push({ x, y: -size, width: size, height: size });
+    }
+
+    /*** DRAW FUNCTIONS ***/
+    function drawShip() {
       ctx.fillStyle = '#38bdf8';
-      ctx.fillRect(player.x, player.y, player.width, player.height);
+      ctx.fillRect(ship.x, ship.y, ship.width, ship.height);
     }
 
     function drawBullets() {
       ctx.fillStyle = '#facc15';
-      bullets.forEach(bullet => {
-        bullet.y -= 7;
-        ctx.fillRect(bullet.x, bullet.y, 5, 10);
+      bullets.forEach((b, i) => {
+        b.y -= b.speed;
+        ctx.fillRect(b.x, b.y, b.width, b.height);
+        if (b.y + b.height < 0) bullets.splice(i, 1);
       });
-      bullets = bullets.filter(b => b.y > 0);
     }
 
     function drawEnemies() {
       ctx.fillStyle = '#f43f5e';
-      enemies.forEach(enemy => {
-        enemy.y += 2;
-        ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
-      });
-      enemies = enemies.filter(e => e.y < canvas.height);
-    }
+      enemies.forEach((e, i) => {
+        e.y += e.speed;
+        ctx.fillRect(e.x, e.y, e.width, e.height);
 
-    function detectHits() {
-      bullets.forEach((bullet, bIndex) => {
-        enemies.forEach((enemy, eIndex) => {
-          if (bullet.x < enemy.x + enemy.size &&
-              bullet.x + 5 > enemy.x &&
-              bullet.y < enemy.y + enemy.size &&
-              bullet.y + 10 > enemy.y) {
-            bullets.splice(bIndex, 1);
-            enemies.splice(eIndex, 1);
-            score++;
-          }
-        });
+        // Remove if off-screen
+        if (e.y > canvas.height) {
+          enemies.splice(i, 1);
+          return;
+        }
+
+        // Check collision with ship
+        if (
+          ship.x < e.x + e.width &&
+          ship.x + ship.width > e.x &&
+          ship.y < e.y + e.height &&
+          ship.y + ship.height > e.y
+        ) {
+          endGame();
+        }
       });
     }
 
     function drawScore() {
       ctx.fillStyle = '#fff';
-      ctx.font = '16px Roboto';
-      ctx.fillText(`Score: ${score}`, 10, 20);
+      ctx.font = '18px Roboto';
+      ctx.fillText('Score: ' + score, 10, 25);
     }
 
-    function gameLoop() {
+    /*** UPDATE LOOP ***/
+    function update() {
+      if (!gameStarted) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPlayer();
+
+      // Move ship
+      if (moveLeft && ship.x > 0) {
+        ship.x -= ship.speed;
+      }
+      if (moveRight && ship.x + ship.width < canvas.width) {
+        ship.x += ship.speed;
+      }
+
+      // Shoot bullet if requested
+      if (shouldShoot) {
+        fireBullet();
+        shouldShoot = false;
+      }
+
+      // Update bullets & enemies
+      drawShip();
       drawBullets();
       drawEnemies();
       detectHits();
       drawScore();
 
-      if (keys['ArrowLeft'] && player.x > 0) player.x -= player.speed;
-      if (keys['ArrowRight'] && player.x + player.width < canvas.width) player.x += player.speed;
-
-      requestAnimationFrame(gameLoop);
+      // Next frame
+      requestId = requestAnimationFrame(update);
     }
 
-    setInterval(() => {
-      let size = 30;
-      let x = Math.random() * (canvas.width - size);
-      enemies.push({ x, y: 0, size });
-    }, 1500);
+    /*** FIRE A BULLET ***/
+    function fireBullet() {
+      bullets.push({
+        x: ship.x + ship.width / 2 - 2,
+        y: ship.y - 10,
+        width: 5,
+        height: 10,
+        speed: 7,
+      });
+      playShootSound();
+    }
 
-    document.addEventListener('keydown', e => {
-      keys[e.key] = true;
-      if (e.key === ' ') {
-        bullets.push({ x: player.x + player.width / 2 - 2.5, y: player.y });
-      }
+    /*** COLLISION DETECTION BETWEEN BULLETS & ENEMIES ***/
+    function detectHits() {
+      bullets.forEach((b, bi) => {
+        enemies.forEach((e, ei) => {
+          if (
+            b.x < e.x + e.width &&
+            b.x + b.width > e.x &&
+            b.y < e.y + e.height &&
+            b.y + b.height > e.y
+          ) {
+            // remove both
+            enemies.splice(ei, 1);
+            bullets.splice(bi, 1);
+            score++;
+            playExplosionSound();
+          }
+        });
+      });
+    }
+
+    /*** END GAME ***/
+    function endGame() {
+      gameStarted = false;
+      clearInterval(spawnInterval);
+      cancelAnimationFrame(requestId);
+      // Show Game Over
+      ctx.fillStyle = '#f43f5e';
+      ctx.font = '24px Roboto';
+      ctx.fillText('Game Over! Score: ' + score, canvas.width / 2 - 120, canvas.height / 2);
+      // Show a “Restart” button on overlay
+      overlay.querySelector('h3').innerText = 'Game Over!';
+      startButton.innerText = 'Play Again';
+      overlay.classList.remove('hidden');
+    }
+
+    /*** KEYBOARD & TOUCH INPUT ***/
+    window.addEventListener('keydown', (e) => {
+      if (!gameStarted) return;
+      if (e.code === 'ArrowLeft') moveLeft = true;
+      if (e.code === 'ArrowRight') moveRight = true;
+      if (e.code === 'Space') shouldShoot = true;
+    });
+    window.addEventListener('keyup', (e) => {
+      if (e.code === 'ArrowLeft') moveLeft = false;
+      if (e.code === 'ArrowRight') moveRight = false;
     });
 
-    document.addEventListener('keyup', e => keys[e.key] = false);
-    gameLoop();
-  </script>
+    // Mobile / touch-controls
+    leftBtn.addEventListener('touchstart', () => {
+      moveLeft = true;
+    });
+    leftBtn.addEventListener('touchend', () => {
+      moveLeft = false;
+    });
+    rightBtn.addEventListener('touchstart', () => {
+      moveRight = true;
+    });
+    rightBtn.addEventListener('touchend', () => {
+      moveRight = false;
+    });
+    shootBtn.addEventListener('touchstart', () => {
+      shouldShoot = true;
+    });
+    shootBtn.addEventListener('touchend', () => {
+      // nothing else required
+    });
 
-  <!-- 💡 Quick Tips to Improve Further:
-    1. Use localStorage to save high scores.
-    2. Add a loading animation or intro splash screen.
-    3. Integrate small project cards in the Projects section.
-    4. Use icons (FontAwesome or SVG) for the nav links.
-    5. Add dark/light theme toggle with CSS variables.
-  -->
+    // Prevent scrolling when touching controls
+    document.getElementById('controls').addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    });
+
+    // Resize canvas internally if window size changes (keeps resolution crisp)
+    window.addEventListener('resize', () => {
+      const container = document.getElementById('gameContainer');
+      const scale = container.clientWidth / 600;
+      canvas.style.transform = 'scale(' + scale + ')';
+      canvas.style.transformOrigin = 'top left';
+      // adjust container height
+      container.style.height = 400 * scale + 'px';
+    });
+    // Trigger initial resize
+    window.dispatchEvent(new Event('resize'));
+  </script>
 </body>
 </html>
