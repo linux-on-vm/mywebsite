@@ -3,42 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Ahmad Bagdaddy's Linux & VM Lab with an epic survival game" />
   <title>Ahmad Bagdaddy | Linux & VM Lab</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
     rel="stylesheet"
   />
   <style>
-    /* ====== GLOBAL RESET & BASE ====== */
+    /* ====== GLOBAL RESET & VARIABLES ====== */
+    :root {
+      --clr-bg-start: #0f172a;
+      --clr-bg-end: #1e3a8a;
+      --clr-accent: #3b82f6;
+      --clr-accent-dark: #2563eb;
+      --clr-secondary: #38bdf8;
+      --clr-light: #f1f5f9;
+      --clr-dark-text: #0f172a;
+      --font-base: 'Roboto', sans-serif;
+    }
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-base);
     }
     body {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      background: linear-gradient(135deg, #1e3a8a, #0f172a);
-      color: #f1f5f9;
+      background: linear-gradient(135deg, var(--clr-bg-end), var(--clr-bg-start));
+      color: var(--clr-light);
       overflow-x: hidden;
     }
     a {
       text-decoration: none;
       color: inherit;
     }
+    button {
+      cursor: pointer;
+      font-family: var(--font-base);
+    }
 
     /* ====== HEADER ====== */
     header {
       text-align: center;
       padding: 2rem 1rem;
-      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      background: linear-gradient(135deg, var(--clr-secondary), var(--clr-accent));
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     header h1 {
       font-size: 2.5rem;
-      color: #fff;
+      color: var(--clr-light);
       text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
     }
     header p {
@@ -54,42 +72,57 @@
       flex-wrap: wrap;
       gap: 1rem;
       margin: 1rem 0 2rem;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
     }
     nav a {
       padding: 0.75rem 1.5rem;
-      background: #38bdf8;
+      background: var(--clr-secondary);
       border-radius: 8px;
       font-weight: 500;
       transition: background 0.3s, transform 0.2s;
       font-size: 0.95rem;
     }
     nav a:hover {
-      background: #0ea5e9;
+      background: var(--clr-accent-dark);
       transform: translateY(-2px);
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
 
     /* ====== SECTIONS ====== */
     .section {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto 3rem;
-      padding: 1rem 1rem;
-      background: rgba(30, 41, 59, 0.85);
+      padding: 1.5rem;
+      background: rgba(30, 41, 59, 0.9);
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.8s ease forwards;
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    .section.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    @keyframes slideUp {
+      to { transform: translateY(0); opacity: 1; }
     }
     .section h2 {
-      color: #3b82f6;
-      border-bottom: 2px solid #3b82f6;
+      color: var(--clr-accent);
+      border-bottom: 2px solid var(--clr-accent);
       padding-bottom: 0.5rem;
       margin-bottom: 1rem;
-      font-size: 1.75rem;
+      font-size: 1.9rem;
       text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
     }
     .section p,
     .section ul {
       font-size: 1rem;
       line-height: 1.6;
-      color: #f1f5f9;
+      color: var(--clr-light);
     }
     .section ul {
       list-style: none;
@@ -98,26 +131,25 @@
     .section ul li::before {
       content: "➤";
       margin-right: 0.5rem;
-      color: #38bdf8;
+      color: var(--clr-secondary);
     }
 
     /* ====== GAME CONTAINER & CANVAS ====== */
     #gameContainer {
       position: relative;
       width: 100%;
-      max-width: 600px;
+      max-width: 800px;
       margin: 0 auto;
     }
     #gameCanvas {
       width: 100%;
       height: auto;
-      background: #0f172a;
-      border: 4px solid #3b82f6;
+      background: var(--clr-bg-start);
+      border: 4px solid var(--clr-accent);
       border-radius: 8px;
       display: block;
     }
-
-    /* Overlay shown before & after game */
+    /* Overlay for menus and messages */
     #overlay {
       position: absolute;
       top: 0;
@@ -125,39 +157,40 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.85);
-      color: #fff;
+      color: var(--clr-light);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 10;
       border-radius: 8px;
+      transition: opacity 0.3s ease;
     }
     #overlay.hidden {
-      display: none;
+      opacity: 0;
+      pointer-events: none;
     }
     #overlay h3 {
       font-size: 2rem;
       margin-bottom: 1rem;
-      color: #3b82f6;
+      color: var(--clr-accent);
     }
     #overlay button {
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
-      background: #38bdf8;
+      background: var(--clr-secondary);
       border: none;
       border-radius: 6px;
-      color: #0f172a;
-      cursor: pointer;
+      color: var(--clr-dark-text);
       transition: background 0.3s, transform 0.2s;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
     #overlay button:hover {
-      background: #0ea5e9;
+      background: var(--clr-accent-dark);
       transform: translateY(-2px);
     }
 
-    /* On-screen touch controls (show under 600px width) */
+    /* ====== ON-SCREEN TOUCH CONTROLS ====== */
     #controls {
       display: none;
       position: absolute;
@@ -170,10 +203,10 @@
     #controls button {
       padding: 0.5rem 1rem;
       font-size: 1.2rem;
-      background: #3b82f6;
+      background: var(--clr-accent);
       border: none;
       border-radius: 6px;
-      color: #fff;
+      color: var(--clr-light);
       opacity: 0.85;
       transition: opacity 0.2s, transform 0.2s;
     }
@@ -187,11 +220,50 @@
       }
     }
 
+    /* ====== HUD & INVENTORY ====== */
+    #hud {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: var(--clr-light);
+      font-size: 1rem;
+      z-index: 5;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+    }
+    #inventory {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      color: var(--clr-dark-text);
+      font-size: 0.9rem;
+      z-index: 5;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 0.5rem;
+      border-radius: 6px;
+    }
+    #inventory h4 {
+      margin-bottom: 0.3rem;
+      color: var(--clr-accent);
+      font-size: 1rem;
+    }
+    #inventory ul {
+      list-style: none;
+      display: flex;
+      gap: 0.5rem;
+    }
+    #inventory ul li {
+      background: var(--clr-secondary);
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+    }
+
     /* ====== FOOTER ====== */
     footer {
       text-align: center;
       padding: 1.5rem 1rem;
-      background: linear-gradient(135deg, #2563eb, #1e3a8a);
+      background: linear-gradient(135deg, var(--clr-accent-dark), var(--clr-bg-end));
       color: #e0e7ff;
       margin-top: auto;
       box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
@@ -200,7 +272,7 @@
       font-size: 0.9rem;
     }
     footer a {
-      color: #38bdf8;
+      color: var(--clr-secondary);
       transition: text-decoration 0.2s;
     }
     footer a:hover {
@@ -226,7 +298,7 @@
   <!-- ====== ABOUT SECTION ====== -->
   <div class="section" id="about">
     <h2>About Me</h2>
-    <p>ahmad bagdaddy, new member of the gooning family</p>
+    <p>Ahmad Bagdaddy, proud member of the gooning family. Passionate about Linux, VMs, network experiments, and epic browser games.</p>
   </div>
 
   <!-- ====== PROJECTS SECTION ====== -->
@@ -235,26 +307,46 @@
     <ul>
       <li>🖥️ Set up Kali and Ubuntu in VMware and VirtualBox.</li>
       <li>🔍 Used Nmap to scan LAN devices and study responses.</li>
-      <li>📡 Practiced network password revealing experiments inside my VM... and failed</li>
+      <li>📡 Practiced network password revealing experiments inside my VM... and failed.</li>
       <li>🧰 Configured simple web servers with Apache on Ubuntu.</li>
     </ul>
   </div>
 
   <!-- ====== GAME SECTION ====== -->
   <div class="section" id="game">
-    <h2>Mini Game: Space Shooter</h2>
+    <h2>Mini Game: Moomoo.io-Style Survival</h2>
     <div id="gameContainer">
-      <canvas id="gameCanvas" width="600" height="400"></canvas>
-      <!-- Overlay shown before & after game -->
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+      <!-- HUD: Health, Wood, Stone, Score -->
+      <div id="hud">
+        <div>Health: <span id="health">100</span></div>
+        <div>Wood: <span id="wood">0</span> | Stone: <span id="stone">0</span></div>
+        <div>Score: <span id="score">0</span></div>
+      </div>
+
+      <!-- Inventory -->
+      <div id="inventory">
+        <h4>Inventory</h4>
+        <ul>
+          <li id="inv-wood">Wood: 0</li>
+          <li id="inv-stone">Stone: 0</li>
+        </ul>
+      </div>
+
+      <!-- Overlay for Start / Game Over -->
       <div id="overlay">
-        <h3>Space Shooter</h3>
+        <h3 id="overlayTitle">Moomoo .io Clone</h3>
         <button id="startButton">Start Game</button>
       </div>
+
       <!-- On-screen buttons for mobile control -->
       <div id="controls">
         <button id="leftBtn">◀</button>
-        <button id="shootBtn">⊙</button>
+        <button id="upBtn">▲</button>
+        <button id="downBtn">▼</button>
         <button id="rightBtn">▶</button>
+        <button id="actionBtn">✦</button>
       </div>
     </div>
   </div>
@@ -267,7 +359,7 @@
 
   <!-- ====== GAME SCRIPT ====== -->
   <script>
-    // ===== AUDIO SETUP USING Web Audio API =====
+    // ===== AUDIO SETUP =====
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
 
@@ -284,15 +376,10 @@
         osc.stop();
       }, duration);
     }
+    function playGatherSound() { playTone(800, 80); }
+    function playHitSound() { playTone(150, 150); }
 
-    function playShootSound() {
-      playTone(600, 100);
-    }
-    function playExplosionSound() {
-      playTone(200, 200);
-    }
-
-    // ===== GAME VARIABLES =====
+    // ===== CANVAS & CONTEXT =====
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const overlay = document.getElementById('overlay');
@@ -300,226 +387,291 @@
     const controls = document.getElementById('controls');
     const leftBtn = document.getElementById('leftBtn');
     const rightBtn = document.getElementById('rightBtn');
-    const shootBtn = document.getElementById('shootBtn');
+    const upBtn = document.getElementById('upBtn');
+    const downBtn = document.getElementById('downBtn');
+    const actionBtn = document.getElementById('actionBtn');
 
+    // HUD elements
+    const healthEl = document.getElementById('health');
+    const woodEl = document.getElementById('wood');
+    const stoneEl = document.getElementById('stone');
+    const scoreEl = document.getElementById('score');
+    const invWoodEl = document.getElementById('inv-wood');
+    const invStoneEl = document.getElementById('inv-stone');
+    const overlayTitle = document.getElementById('overlayTitle');
+
+    // GAME STATE
     let gameStarted = false;
     let requestId = null;
-    let spawnInterval = null;
-    let score = 0;
+    let lastFrameTime = 0;
+    let deltaTime = 0;
 
-    const ship = {
-      x: canvas.width / 2 - 20,
-      y: canvas.height - 40,
-      width: 40,
-      height: 20,
-      speed: 5
+    // PLAYER
+    const player = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      size: 20,
+      speed: 150, // pixels per second
+      dirX: 0,
+      dirY: 0,
+      health: 100,
+      wood: 0,
+      stone: 0,
     };
 
-    let bullets = [];
-    let enemies = [];
+    // WORLD & ENTITIES
+    const tileSize = 40;
+    const worldCols = Math.ceil(canvas.width / tileSize);
+    const worldRows = Math.ceil(canvas.height / tileSize);
+    const resources = []; // { x, y, type:'tree'|'rock', health }
+    const enemies = [];   // { x, y, size, speed, health }
 
-    // Input flags
-    let moveLeft = false;
-    let moveRight = false;
-    let shouldShoot = false;
+    // INPUT FLAGS
+    let moveLeft = false, moveRight = false, moveUp = false, moveDown = false, doAction = false;
 
-    // ===== START GAME =====
-    function startGame() {
-      overlay.classList.add('hidden');
-      gameStarted = true;
-      score = 0;
-      bullets = [];
-      enemies = [];
-      ship.x = canvas.width / 2 - ship.width / 2;
-
-      // Show mobile controls if on small screen
-      if (window.innerWidth <= 600) {
-        controls.style.display = 'flex';
+    // ===== INITIAL SETUP =====
+    function initWorld() {
+      resources.length = 0;
+      enemies.length = 0;
+      // Place random trees & rocks
+      for (let i = 0; i < 30; i++) {
+        // Tree
+        resources.push({
+          x: Math.random() * (canvas.width - tileSize),
+          y: Math.random() * (canvas.height - tileSize),
+          type: 'tree',
+          health: 3
+        });
       }
-
-      // Spawn enemies every 1.5 seconds
-      spawnInterval = setInterval(spawnEnemy, 1500);
-
-      // Resume audio context (for mobile)
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+      for (let i = 0; i < 20; i++) {
+        // Rock
+        resources.push({
+          x: Math.random() * (canvas.width - tileSize),
+          y: Math.random() * (canvas.height - tileSize),
+          type: 'rock',
+          health: 5
+        });
       }
-
-      // Start update loop
-      requestId = requestAnimationFrame(update);
+      // Spawn initial enemies
+      for (let i = 0; i < 5; i++) spawnEnemy();
     }
 
-    startButton.addEventListener('click', startGame);
-
-    // ===== SPAWN ENEMY =====
     function spawnEnemy() {
-      const size = 30;
-      const x = Math.random() * (canvas.width - size);
-      const speed = 1 + Math.random() * 1.5; // random speed between 1 and 2.5
-      enemies.push({ x, y: -size, width: size, height: size, speed });
+      const size = 20;
+      const x = Math.random() < 0.5 ? 0 : canvas.width - size;
+      const y = Math.random() * (canvas.height - size);
+      const speed = 50 + Math.random() * 50;
+      enemies.push({
+        x, y, size, speed,
+        health: 5
+      });
     }
 
     // ===== DRAW FUNCTIONS =====
-    function drawShip() {
+    function drawPlayer() {
       ctx.fillStyle = '#38bdf8';
-      ctx.fillRect(ship.x, ship.y, ship.width, ship.height);
+      ctx.beginPath();
+      ctx.arc(player.x, player.y, player.size / 2, 0, Math.PI * 2);
+      ctx.fill();
     }
 
-    function drawBullets() {
-      ctx.fillStyle = '#facc15';
-      bullets.forEach((b, i) => {
-        b.y -= b.speed;
-        ctx.fillRect(b.x, b.y, b.width, b.height);
-        if (b.y + b.height < 0) bullets.splice(i, 1);
+    function drawResources() {
+      resources.forEach(res => {
+        if (res.type === 'tree') {
+          ctx.fillStyle = '#228B22';
+          ctx.fillRect(res.x, res.y, tileSize, tileSize);
+        } else {
+          ctx.fillStyle = '#A9A9A9';
+          ctx.fillRect(res.x, res.y, tileSize, tileSize);
+        }
       });
     }
 
     function drawEnemies() {
-      ctx.fillStyle = '#f43f5e';
-      enemies.forEach((e, i) => {
-        e.y += e.speed;
-        ctx.fillRect(e.x, e.y, e.width, e.height);
-
-        // Remove if off-screen
-        if (e.y > canvas.height) {
-          enemies.splice(i, 1);
-          return;
-        }
-
-        // Collision with ship
-        if (
-          ship.x < e.x + e.width &&
-          ship.x + ship.width > e.x &&
-          ship.y < e.y + e.height &&
-          ship.y + ship.height > e.y
-        ) {
-          endGame();
-        }
+      enemies.forEach(e => {
+        ctx.fillStyle = '#f43f5e';
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.size / 2, 0, Math.PI * 2);
+        ctx.fill();
       });
     }
 
-    function drawScore() {
-      ctx.fillStyle = '#fff';
-      ctx.font = '18px Roboto';
-      ctx.fillText('Score: ' + score, 10, 25);
+    function drawHUD() {
+      healthEl.innerText = player.health;
+      woodEl.innerText = player.wood;
+      stoneEl.innerText = player.stone;
+      scoreEl.innerText = player.wood + player.stone;
+      invWoodEl.innerText = `Wood: ${player.wood}`;
+      invStoneEl.innerText = `Stone: ${player.stone}`;
     }
 
     // ===== UPDATE LOOP =====
-    function update() {
+    function update(timestamp) {
       if (!gameStarted) return;
+      if (!lastFrameTime) lastFrameTime = timestamp;
+      deltaTime = (timestamp - lastFrameTime) / 1000; // in seconds
+      lastFrameTime = timestamp;
+
+      // Clear
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Move ship
-      if (moveLeft && ship.x > 0) {
-        ship.x -= ship.speed;
+      // Move player
+      player.dirX = 0; player.dirY = 0;
+      if (moveLeft) player.dirX = -1;
+      if (moveRight) player.dirX = 1;
+      if (moveUp) player.dirY = -1;
+      if (moveDown) player.dirY = 1;
+      const len = Math.hypot(player.dirX, player.dirY);
+      if (len) {
+        player.x += (player.dirX / len) * player.speed * deltaTime;
+        player.y += (player.dirY / len) * player.speed * deltaTime;
       }
-      if (moveRight && ship.x + ship.width < canvas.width) {
-        ship.x += ship.speed;
+      // Bounds
+      player.x = Math.max(player.size/2, Math.min(canvas.width - player.size/2, player.x));
+      player.y = Math.max(player.size/2, Math.min(canvas.height - player.size/2, player.y));
+
+      // Handle action: gather resources
+      if (doAction) {
+        resources.forEach((res, i) => {
+          const dx = player.x - (res.x + tileSize/2);
+          const dy = player.y - (res.y + tileSize/2);
+          if (Math.hypot(dx, dy) < player.size/2 + tileSize/2) {
+            res.health--;
+            playGatherSound();
+            if (res.health <= 0) {
+              if (res.type === 'tree') player.wood++;
+              else player.stone++;
+              resources.splice(i, 1);
+            }
+          }
+        });
+        doAction = false;
       }
 
-      // Shoot bullet
-      if (shouldShoot) {
-        fireBullet();
-        shouldShoot = false;
+      // Move & check enemies
+      enemies.forEach((e, ei) => {
+        const dx = player.x - e.x;
+        const dy = player.y - e.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist > 0) {
+          e.x += (dx / dist) * e.speed * deltaTime;
+          e.y += (dy / dist) * e.speed * deltaTime;
+        }
+        // Collision with player
+        if (dist < e.size/2 + player.size/2) {
+          player.health -= 10;
+          playHitSound();
+          enemies.splice(ei, 1);
+          setTimeout(spawnEnemy, 2000);
+        }
+      });
+
+      // Periodically spawn new resources
+      if (Math.random() < 0.005) {
+        const type = Math.random() < 0.6 ? 'tree' : 'rock';
+        resources.push({
+          x: Math.random() * (canvas.width - tileSize),
+          y: Math.random() * (canvas.height - tileSize),
+          type,
+          health: type === 'tree' ? 3 : 5
+        });
       }
 
-      // Draw & update elements
-      drawShip();
-      drawBullets();
+      // Draw everything
+      drawResources();
       drawEnemies();
-      detectHits();
-      drawScore();
+      drawPlayer();
+      drawHUD();
+
+      // Check for game over
+      if (player.health <= 0) return endGame();
 
       // Next frame
       requestId = requestAnimationFrame(update);
     }
 
-    // ===== FIRE BULLET =====
-    function fireBullet() {
-      bullets.push({
-        x: ship.x + ship.width / 2 - 2,
-        y: ship.y - 10,
-        width: 5,
-        height: 10,
-        speed: 7
-      });
-      playShootSound();
+    // ===== START & END GAME =====
+    function startGame() {
+      overlay.classList.add('hidden');
+      gameStarted = true;
+      lastFrameTime = 0;
+      // Reset player
+      player.x = canvas.width / 2;
+      player.y = canvas.height / 2;
+      player.health = 100;
+      player.wood = 0;
+      player.stone = 0;
+      // Init world
+      initWorld();
+      // Show mobile controls if small screen
+      if (window.innerWidth <= 600) controls.style.display = 'flex';
+      else controls.style.display = 'none';
+      // Resume audio if suspended
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      // Kick off loop
+      requestId = requestAnimationFrame(update);
     }
 
-    // ===== DETECT HITS =====
-    function detectHits() {
-      bullets.forEach((b, bi) => {
-        enemies.forEach((e, ei) => {
-          if (
-            b.x < e.x + e.width &&
-            b.x + b.width > e.x &&
-            b.y < e.y + e.height &&
-            b.y + b.height > e.y
-          ) {
-            // remove both
-            enemies.splice(ei, 1);
-            bullets.splice(bi, 1);
-            score++;
-            playExplosionSound();
-          }
-        });
-      });
-    }
-
-    // ===== END GAME =====
     function endGame() {
       gameStarted = false;
-      clearInterval(spawnInterval);
       cancelAnimationFrame(requestId);
-
-      // Display Game Over
-      ctx.fillStyle = '#f43f5e';
-      ctx.font = '24px Roboto';
-      ctx.fillText('Game Over! Score: ' + score, canvas.width / 2 - 120, canvas.height / 2);
-
-      // Show overlay with “Play Again”
-      overlay.querySelector('h3').innerText = 'Game Over!';
+      overlayTitle.innerText = `Game Over! Score: ${player.wood + player.stone}`;
       startButton.innerText = 'Play Again';
       overlay.classList.remove('hidden');
     }
 
-    // ===== KEYBOARD & TOUCH INPUT =====
+    // ===== INPUT HANDLERS =====
     window.addEventListener('keydown', (e) => {
       if (!gameStarted) return;
-      if (e.code === 'ArrowLeft') moveLeft = true;
-      if (e.code === 'ArrowRight') moveRight = true;
-      if (e.code === 'Space') {
-        shouldShoot = true;
-      }
+      if (e.code === 'ArrowLeft' || e.code === 'KeyA') moveLeft = true;
+      if (e.code === 'ArrowRight' || e.code === 'KeyD') moveRight = true;
+      if (e.code === 'ArrowUp' || e.code === 'KeyW') moveUp = true;
+      if (e.code === 'ArrowDown' || e.code === 'KeyS') moveDown = true;
+      if (e.code === 'Space') doAction = true;
     });
     window.addEventListener('keyup', (e) => {
-      if (e.code === 'ArrowLeft') moveLeft = false;
-      if (e.code === 'ArrowRight') moveRight = false;
+      if (e.code === 'ArrowLeft' || e.code === 'KeyA') moveLeft = false;
+      if (e.code === 'ArrowRight' || e.code === 'KeyD') moveRight = false;
+      if (e.code === 'ArrowUp' || e.code === 'KeyW') moveUp = false;
+      if (e.code === 'ArrowDown' || e.code === 'KeyS') moveDown = false;
     });
 
     // Mobile / touch-controls
-    leftBtn.addEventListener('touchstart', () => {
-      moveLeft = true;
+    leftBtn.addEventListener('touchstart', () => moveLeft = true);
+    leftBtn.addEventListener('touchend', () => moveLeft = false);
+    rightBtn.addEventListener('touchstart', () => moveRight = true);
+    rightBtn.addEventListener('touchend', () => moveRight = false);
+    upBtn.addEventListener('touchstart', () => moveUp = true);
+    upBtn.addEventListener('touchend', () => moveUp = false);
+    downBtn.addEventListener('touchstart', () => moveDown = true);
+    downBtn.addEventListener('touchend', () => moveDown = false);
+    actionBtn.addEventListener('touchstart', () => doAction = true);
+
+    controls.addEventListener('touchmove', (e) => e.preventDefault());
+
+    // Start button
+    startButton.addEventListener('click', startGame);
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector(anchor.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
     });
-    leftBtn.addEventListener('touchend', () => {
-      moveLeft = false;
-    });
-    rightBtn.addEventListener('touchstart', () => {
-      moveRight = true;
-    });
-    rightBtn.addEventListener('touchend', () => {
-      moveRight = false;
-    });
-    shootBtn.addEventListener('touchstart', () => {
-      shouldShoot = true;
-    });
-    shootBtn.addEventListener('touchend', () => {
-      // no-op
-    });
-    // Prevent scrolling when using touch controls
-    controls.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-    });
+
+    // Reveal sections on scroll
+    const sections = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+    sections.forEach(sec => observer.observe(sec));
   </script>
 </body>
 </html>
