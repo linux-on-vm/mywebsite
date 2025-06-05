@@ -1,0 +1,13 @@
+9
+^partitionKey=%28https%2Cipinfo.io%29
+https://www.googletagmanager.com/static/service_worker
+https://www.googletagmanager.com/static/service_worker/55j0/sw.js?origin=https%3A%2F%2Fipinfo.io
+false
+{2fa4b9e9-c2a4-47ae-8136-12cd12cb5baa}
+1
+1749066625651646
+1749066626234490
+1749066625511424
+0
+true
+#
