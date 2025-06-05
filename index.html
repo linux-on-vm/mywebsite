@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Ahmad's Personal VM & Linux Projects">
-  <title>Ahmad's VM World</title>
+  <meta name="description" content="Linux Enthusiast | VM Labs | Ethical Hacking">
+  <title>Ahmad Bagdaddy | Linux & VM Lab</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <style>
     * {
@@ -14,87 +14,132 @@
       font-family: 'Roboto', sans-serif;
     }
     body {
-      background-color: #0f172a;
-      color: #f1f5f9;
+      background: linear-gradient(to right, #0f172a, #1e3a8a);
+      color: #f8fafc;
       line-height: 1.6;
       padding: 2rem;
     }
     header {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
+      animation: fadeIn 2s ease-in-out;
     }
     header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #22d3ee;
+      text-shadow: 2px 2px #0f172a;
     }
     header p {
-      font-size: 1.2rem;
-      color: #94a3b8;
+      font-size: 1.3rem;
+      color: #cbd5e1;
     }
     .content {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
     }
     .section {
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
     .section h2 {
       color: #38bdf8;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.7rem;
+      border-bottom: 2px solid #38bdf8;
+      padding-bottom: 0.3rem;
+    }
+    .section ul {
+      list-style-type: square;
+      padding-left: 1.5rem;
+    }
+    .section li {
+      margin-bottom: 0.8rem;
+    }
+    .link-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .link-buttons a {
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: white;
+      background: linear-gradient(to right, #ec4899, #8b5cf6);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .link-buttons a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     }
     .footer {
       text-align: center;
       margin-top: 3rem;
+      font-size: 0.95rem;
       color: #94a3b8;
-      font-size: 0.9rem;
     }
     .footer a {
-      color: #38bdf8;
+      color: #60a5fa;
       text-decoration: none;
     }
-    .footer a:hover {
-      text-decoration: underline;
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Welcome to Ahmad's VM World</h1>
-    <p>Linux lover • Ethical hacker • VM experiments</p>
+    <h1>Ahmad Bagdaddy | Linux & VM Lab</h1>
+    <p>Exploring the world of virtualization, networks, and ethical hacking</p>
   </header>
 
   <div class="content">
     <div class="section">
       <h2>About Me</h2>
       <p>
-        I'm Ahmad, and I love breaking, testing, and learning from virtual environments. I explore different Linux distros,
-        network security concepts, and virtualization setups to build my skills.
+        I'm ahmad bigdaddy goon master 123 xxx
       </p>
     </div>
 
     <div class="section">
       <h2>What I Do</h2>
       <ul>
-        <li>🔧 Set up custom Linux virtual machines</li>
-        <li>🔍 Test network security with tools like Nmap & Wireshark</li>
-        <li>📦 Experiment with Kali Linux, Ubuntu, and Arch</li>
-        <li>📁 Host projects using GitHub Pages</li>
+        <li>🖥️ Build custom Linux-based virtual machines for testing and learning</li>
+        <li>🧠 Reverse engineer and analyze network behaviors</li>
+        <li>🛡️ Perform ethical hacking simulations and defense strategies</li>
+        <li>📂 Host experiments and demos with GitHub Pages</li>
       </ul>
     </div>
 
     <div class="section">
       <h2>Recent Projects</h2>
       <ul>
-        <li>➡️ <strong>"Internet Hack" VM:</strong> Tested network scanning with Nmap and arp-scan.</li>
-        <li>➡️ <strong>WiFi Attack Sim:</strong> Practiced deauth attacks and WPA cracking (on my own network, ethically!).</li>
-        <li>➡️ <strong>Ubuntu Server Build:</strong> Created a basic web server using Apache and HTML.</li>
+        <li><strong>Internet Hack VM:</strong> Local network device scanning with ARP and Nmap techniques</li>
+        <li><strong>WiFi Defense Lab:</strong> Testing WPA2 networks against spoofing and deauthentication</li>
+        <li><strong>Ubuntu Web Server:</strong> Static site hosted on Apache in isolated VM</li>
+        <li><strong>Kali + Metasploit VM:</strong> Simulated penetration testing environments with custom payload delivery</li>
       </ul>
+    </div>
+
+    <div class="section">
+      <h2>Follow Me</h2>
+      <div class="link-buttons">
+        <a href="https://instagram.com/ahmadbagdaddy" target="_blank">📷 Instagram: @ahmadbagdaddy</a>
+        <a href="https://github.com/linux-on-vm" target="_blank">💻 GitHub: linux-on-vm</a>
+        <a href="mailto:ahmad@vmworld.dev">📧 Contact Me</a>
+        <a href="https://linux-on-vm.github.io/mywebsite/" target="_blank">🌐 Visit My Projects</a>
+      </div>
     </div>
   </div>
 
   <div class="footer">
-    <p>Follow me on Instagram: <a href="https://instagram.com/ahmadbagdaddy" target="_blank">@ahmadbagdaddy</a></p>
-    <p>© 2025 Ahmad | Powered by GitHub Pages</p>
+    <p>Site crafted by Ahmad Bagdaddy | Powered by <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
+    <p>2025 &copy; All rights reserved.</p>
   </div>
 </body>
 </html>
