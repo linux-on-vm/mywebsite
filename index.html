@@ -6,11 +6,16 @@
   <title>Ahmad Bagdaddy | Linux & VM Lab</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+    html, body {
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(to right, #0f172a, #1e3a8a);
       color: #f1f5f9;
+      scroll-behavior: smooth;
     }
     header, footer {
       text-align: center;
@@ -19,47 +24,88 @@
     header h1 {
       font-size: 2.5rem;
       color: #38bdf8;
+      animation: fadeInDown 1s ease-in-out;
+    }
+    header p {
+      color: #cbd5e1;
+      margin-top: 0.5rem;
     }
     nav {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 1rem;
       margin-bottom: 2rem;
+      background-color: #1e293b;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
     nav a {
+      color: #f1f5f9;
       text-decoration: none;
-      color: #fff;
-      padding: 1rem 1.5rem;
+      padding: 0.75rem 1.5rem;
       background-color: #0ea5e9;
       border-radius: 8px;
-      transition: background-color 0.3s;
+      transition: all 0.3s ease;
     }
     nav a:hover {
       background-color: #0284c7;
+      transform: scale(1.05);
     }
     .section {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 1rem;
+      padding: 2rem 1rem;
     }
     .section h2 {
-      border-bottom: 2px solid #38bdf8;
-      padding-bottom: 0.5rem;
+      font-size: 1.8rem;
       margin-bottom: 1rem;
       color: #38bdf8;
+      border-bottom: 2px solid #38bdf8;
+      padding-bottom: 0.5rem;
+    }
+    .section ul {
+      padding-left: 1.5rem;
+      list-style-type: disc;
     }
     canvas {
       display: block;
       margin: 2rem auto;
-      background: #1e293b;
       border: 2px solid #38bdf8;
+      background-color: #0f172a;
+      border-radius: 10px;
+    }
+    footer {
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+    footer a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      nav a {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Ahmad Bagdaddy | dont forget to support me on instagram</h1>
+    <h1>Ahmad Bagdaddy | Linux & VM Lab</h1>
     <p>Documenting real experiments and skills I’ve actually explored.</p>
   </header>
 
@@ -73,7 +119,7 @@
 
   <div class="section" id="about">
     <h2>About Me</h2>
-    <p> ahmad bagdaddy, new member of the gooning family </p>
+    <p>Hey! I'm Ahmad. I enjoy using Linux inside VMs to test networking tools like Nmap, explore how basic network layers interact, and simulate basic environments for learning purposes. Nothing flashy — just pure hands-on learning.</p>
   </div>
 
   <div class="section" id="projects">
@@ -81,95 +127,111 @@
     <ul>
       <li>🖥️ Set up Kali and Ubuntu in VMware and VirtualBox.</li>
       <li>🔍 Used Nmap to scan LAN devices and study responses.</li>
-      <li>📡 Practiced network password revealing experiments inside my VM... and failed </li>
+      <li>📡 Practiced basic network experiments safely inside my VM lab.</li>
       <li>🧰 Configured simple web servers with Apache on Ubuntu.</li>
     </ul>
   </div>
 
   <div class="section" id="game">
-    <h2>Mini Game: Square Jumper</h2>
-    <canvas id="gameCanvas" width="600" height="200"></canvas>
+    <h2>Mini Game: Space Blaster</h2>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
   </div>
 
   <footer>
-    <p>&copy; 2025 Ahmad Bagdaddy | Built with care and realism.</p>
+    <p>&copy; 2025 Ahmad Bagdaddy | Built with care and realism. Powered by <a href="https://pages.github.com">GitHub Pages</a></p>
   </footer>
 
   <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
 
-    let square = { x: 50, y: 160, size: 20, dy: 0, jumping: false };
-    let gravity = 0.6;
-    let ground = 160;
-    let obstacles = [];
+    let player = { x: 280, y: 350, width: 40, height: 20, speed: 5 };
+    let bullets = [];
+    let enemies = [];
+    let keys = {};
     let score = 0;
 
-    function spawnObstacle() {
-      obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
+    function drawPlayer() {
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillRect(player.x, player.y, player.width, player.height);
     }
 
-    function updateGame() {
+    function drawBullets() {
+      ctx.fillStyle = '#facc15';
+      bullets.forEach(bullet => {
+        bullet.y -= 7;
+        ctx.fillRect(bullet.x, bullet.y, 5, 10);
+      });
+      bullets = bullets.filter(b => b.y > 0);
+    }
+
+    function drawEnemies() {
+      ctx.fillStyle = '#f43f5e';
+      enemies.forEach(enemy => {
+        enemy.y += 2;
+        ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
+      });
+      enemies = enemies.filter(e => e.y < canvas.height);
+    }
+
+    function detectHits() {
+      bullets.forEach((bullet, bIndex) => {
+        enemies.forEach((enemy, eIndex) => {
+          if (bullet.x < enemy.x + enemy.size &&
+              bullet.x + 5 > enemy.x &&
+              bullet.y < enemy.y + enemy.size &&
+              bullet.y + 10 > enemy.y) {
+            bullets.splice(bIndex, 1);
+            enemies.splice(eIndex, 1);
+            score++;
+          }
+        });
+      });
+    }
+
+    function drawScore() {
+      ctx.fillStyle = '#fff';
+      ctx.font = '16px Roboto';
+      ctx.fillText(`Score: ${score}`, 10, 20);
+    }
+
+    function gameLoop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawPlayer();
+      drawBullets();
+      drawEnemies();
+      detectHits();
+      drawScore();
 
-      // Draw player
-      ctx.fillStyle = "#38bdf8";
-      ctx.fillRect(square.x, square.y, square.size, square.size);
+      if (keys['ArrowLeft'] && player.x > 0) player.x -= player.speed;
+      if (keys['ArrowRight'] && player.x + player.width < canvas.width) player.x += player.speed;
 
-      // Draw ground
-      ctx.strokeStyle = "#94a3b8";
-      ctx.beginPath();
-      ctx.moveTo(0, ground + square.size);
-      ctx.lineTo(canvas.width, ground + square.size);
-      ctx.stroke();
-
-      // Gravity and jump
-      square.dy += gravity;
-      square.y += square.dy;
-      if (square.y > ground) {
-        square.y = ground;
-        square.dy = 0;
-        square.jumping = false;
-      }
-
-      // Obstacles
-      ctx.fillStyle = "#f43f5e";
-      for (let i = 0; i < obstacles.length; i++) {
-        let obs = obstacles[i];
-        obs.x -= 4;
-        ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
-
-        // Collision detection
-        if (
-          square.x < obs.x + obs.width &&
-          square.x + square.size > obs.x &&
-          square.y < obs.y + obs.height &&
-          square.y + square.size > obs.y
-        ) {
-          alert("Game Over! Score: " + score);
-          document.location.reload();
-        }
-      }
-
-      // Remove old obstacles
-      obstacles = obstacles.filter(obs => obs.x + obs.width > 0);
-
-      // Score
-      score++;
-      ctx.fillStyle = "#facc15";
-      ctx.font = "16px Roboto";
-      ctx.fillText("Score: " + score, 10, 20);
+      requestAnimationFrame(gameLoop);
     }
 
-    setInterval(updateGame, 1000 / 60);
-    setInterval(spawnObstacle, 2000);
+    setInterval(() => {
+      let size = 30;
+      let x = Math.random() * (canvas.width - size);
+      enemies.push({ x, y: 0, size });
+    }, 1500);
 
-    window.addEventListener("keydown", e => {
-      if (e.code === "Space" && !square.jumping) {
-        square.dy = -12;
-        square.jumping = true;
+    document.addEventListener('keydown', e => {
+      keys[e.key] = true;
+      if (e.key === ' ') {
+        bullets.push({ x: player.x + player.width / 2 - 2.5, y: player.y });
       }
     });
+
+    document.addEventListener('keyup', e => keys[e.key] = false);
+    gameLoop();
   </script>
+
+  <!-- 💡 Quick Tips to Improve Further:
+    1. Use localStorage to save high scores.
+    2. Add a loading animation or intro splash screen.
+    3. Integrate small project cards in the Projects section.
+    4. Use icons (FontAwesome or SVG) for the nav links.
+    5. Add dark/light theme toggle with CSS variables.
+  -->
 </body>
 </html>
