@@ -3,143 +3,173 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Linux Enthusiast | VM Labs | Ethical Hacking">
   <title>Ahmad Bagdaddy | Linux & VM Lab</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Roboto', sans-serif;
-    }
     body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
       background: linear-gradient(to right, #0f172a, #1e3a8a);
-      color: #f8fafc;
-      line-height: 1.6;
-      padding: 2rem;
+      color: #f1f5f9;
     }
-    header {
+    header, footer {
       text-align: center;
-      margin-bottom: 3rem;
-      animation: fadeIn 2s ease-in-out;
+      padding: 2rem 1rem;
     }
     header h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: #22d3ee;
-      text-shadow: 2px 2px #0f172a;
+      font-size: 2.5rem;
+      color: #38bdf8;
     }
-    header p {
-      font-size: 1.3rem;
-      color: #cbd5e1;
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
-    .content {
-      max-width: 1000px;
-      margin: 0 auto;
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      padding: 1rem 1.5rem;
+      background-color: #0ea5e9;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+    nav a:hover {
+      background-color: #0284c7;
     }
     .section {
-      margin-bottom: 2.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem;
     }
     .section h2 {
-      color: #38bdf8;
-      margin-bottom: 0.7rem;
       border-bottom: 2px solid #38bdf8;
-      padding-bottom: 0.3rem;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      color: #38bdf8;
     }
-    .section ul {
-      list-style-type: square;
-      padding-left: 1.5rem;
-    }
-    .section li {
-      margin-bottom: 0.8rem;
-    }
-    .link-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-    .link-buttons a {
-      padding: 1rem 1.5rem;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      text-decoration: none;
-      color: white;
-      background: linear-gradient(to right, #ec4899, #8b5cf6);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .link-buttons a:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    }
-    .footer {
-      text-align: center;
-      margin-top: 3rem;
-      font-size: 0.95rem;
-      color: #94a3b8;
-    }
-    .footer a {
-      color: #60a5fa;
-      text-decoration: none;
-    }
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(-20px); }
-      100% { opacity: 1; transform: translateY(0); }
+    canvas {
+      display: block;
+      margin: 2rem auto;
+      background: #1e293b;
+      border: 2px solid #38bdf8;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Ahmad Bagdaddy | Linux & VM Lab</h1>
-    <p>Exploring the world of virtualization, networks, and ethical hacking</p>
+    <h1>Ahmad Bagdaddy | dont forget to support me on instagram</h1>
+    <p>Documenting real experiments and skills I’ve actually explored.</p>
   </header>
 
-  <div class="content">
-    <div class="section">
-      <h2>About Me</h2>
-      <p>
-        I'm ahmad bigdaddy goon master 123 xxx
-      </p>
-    </div>
+  <nav>
+    <a href="#about">About Me</a>
+    <a href="#projects">Projects</a>
+    <a href="#game">Mini Game</a>
+    <a href="https://github.com/linux-on-vm" target="_blank">GitHub</a>
+    <a href="https://instagram.com/ahmadbagdaddy" target="_blank">Instagram</a>
+  </nav>
 
-    <div class="section">
-      <h2>What I Do</h2>
-      <ul>
-        <li>🖥️ Build custom Linux-based virtual machines for testing and learning</li>
-        <li>🧠 Reverse engineer and analyze network behaviors</li>
-        <li>🛡️ Perform ethical hacking simulations and defense strategies</li>
-        <li>📂 Host experiments and demos with GitHub Pages</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Recent Projects</h2>
-      <ul>
-        <li><strong>Internet Hack VM:</strong> Local network device scanning with ARP and Nmap techniques</li>
-        <li><strong>WiFi Defense Lab:</strong> Testing WPA2 networks against spoofing and deauthentication</li>
-        <li><strong>Ubuntu Web Server:</strong> Static site hosted on Apache in isolated VM</li>
-        <li><strong>Kali + Metasploit VM:</strong> Simulated penetration testing environments with custom payload delivery</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Follow Me</h2>
-      <div class="link-buttons">
-        <a href="https://instagram.com/ahmadbagdaddy" target="_blank">📷 Instagram: @ahmadbagdaddy</a>
-        <a href="https://github.com/linux-on-vm" target="_blank">💻 GitHub: linux-on-vm</a>
-        <a href="mailto:ahmad@vmworld.dev">📧 Contact Me</a>
-        <a href="https://linux-on-vm.github.io/mywebsite/" target="_blank">🌐 Visit My Projects</a>
-      </div>
-    </div>
+  <div class="section" id="about">
+    <h2>About Me</h2>
+    <p> ahmad bagdaddy, new member of the gooning family </p>
   </div>
 
-  <div class="footer">
-    <p>Site crafted by Ahmad Bagdaddy | Powered by <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
-    <p>2025 &copy; All rights reserved.</p>
+  <div class="section" id="projects">
+    <h2>What I’ve Done</h2>
+    <ul>
+      <li>🖥️ Set up Kali and Ubuntu in VMware and VirtualBox.</li>
+      <li>🔍 Used Nmap to scan LAN devices and study responses.</li>
+      <li>📡 Practiced network password revealing experiments inside my VM... and failed </li>
+      <li>🧰 Configured simple web servers with Apache on Ubuntu.</li>
+    </ul>
   </div>
+
+  <div class="section" id="game">
+    <h2>Mini Game: Square Jumper</h2>
+    <canvas id="gameCanvas" width="600" height="200"></canvas>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Ahmad Bagdaddy | Built with care and realism.</p>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let square = { x: 50, y: 160, size: 20, dy: 0, jumping: false };
+    let gravity = 0.6;
+    let ground = 160;
+    let obstacles = [];
+    let score = 0;
+
+    function spawnObstacle() {
+      obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
+    }
+
+    function updateGame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw player
+      ctx.fillStyle = "#38bdf8";
+      ctx.fillRect(square.x, square.y, square.size, square.size);
+
+      // Draw ground
+      ctx.strokeStyle = "#94a3b8";
+      ctx.beginPath();
+      ctx.moveTo(0, ground + square.size);
+      ctx.lineTo(canvas.width, ground + square.size);
+      ctx.stroke();
+
+      // Gravity and jump
+      square.dy += gravity;
+      square.y += square.dy;
+      if (square.y > ground) {
+        square.y = ground;
+        square.dy = 0;
+        square.jumping = false;
+      }
+
+      // Obstacles
+      ctx.fillStyle = "#f43f5e";
+      for (let i = 0; i < obstacles.length; i++) {
+        let obs = obstacles[i];
+        obs.x -= 4;
+        ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+
+        // Collision detection
+        if (
+          square.x < obs.x + obs.width &&
+          square.x + square.size > obs.x &&
+          square.y < obs.y + obs.height &&
+          square.y + square.size > obs.y
+        ) {
+          alert("Game Over! Score: " + score);
+          document.location.reload();
+        }
+      }
+
+      // Remove old obstacles
+      obstacles = obstacles.filter(obs => obs.x + obs.width > 0);
+
+      // Score
+      score++;
+      ctx.fillStyle = "#facc15";
+      ctx.font = "16px Roboto";
+      ctx.fillText("Score: " + score, 10, 20);
+    }
+
+    setInterval(updateGame, 1000 / 60);
+    setInterval(spawnObstacle, 2000);
+
+    window.addEventListener("keydown", e => {
+      if (e.code === "Space" && !square.jumping) {
+        square.dy = -12;
+        square.jumping = true;
+      }
+    });
+  </script>
 </body>
 </html>
